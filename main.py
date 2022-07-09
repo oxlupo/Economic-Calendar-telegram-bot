@@ -178,9 +178,9 @@ print(loc)
 
 
 for name in loc.values:
-    send_massage(name)
-
-
+    if not name[4] == "":
+        send_massage(name)
+        print("the massage was sended to bot")
 
 
 
