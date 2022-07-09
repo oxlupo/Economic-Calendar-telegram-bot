@@ -5,7 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 from flask import Flask, request
-
+import os
 TOKEN = "bot5334404508:AAFD-Vkaghr_BLOkC5n1Sy_XwFzKl3_4DSo"
 bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
@@ -17,34 +17,7 @@ table = soup.find("table", id="economicCalendarData")
 with open("event.json", 'r', encoding='utf-8') as e:
 
     persian = json.load(e)
-text = f"""
-#FOREX_FACTORY
 
-🗓️ چهارشنبه ۵  ژوئن ۲۰۲۲
-
-✅شاخص خالص خرده فروشی  (ماهانه) (ژوئن) 
- 
-Core Retail Sales m/m
-
-
-✔️ واقعی      
-✔️ پیش بینی0.7%
-✔️ قبلی        0.6%
-
-
-
-✅شاخص خرده فروشی  (ماهانه) (ژوئن)
-
- Retail Sales m/m
-
-
-✔️ واقعی       
-✔️ پیش بینی 1%
-✔️ قبلی          0.9%
-
-
- #USD
-📍@Amiramidiyan📍"""
 
 def connection(url):
     """get html of website with request and parse it with soup"""
@@ -143,6 +116,13 @@ def clean_df(table):
     table['Previous'] = table['Previous'].apply(lambda x: str(x).replace(u'\xa0', u''))
     return table
 
+
+def webhook():
+    bot.remove_webhook()
+    bot.set_webhook(url="https://sheltered-sierra-85399.herokuapp.com/" + TOKEN)
+    return "!", 200
+
+
 def send_massage(loc):
     """send a massage to channel by telegram bot"""
     for pr in persian:
@@ -175,6 +155,7 @@ def send_massage(loc):
     return resp
 
 
+
 # table = connection(url="https://www.investing.com/economic-calendar")
 table_inf = find_table(table)
 table_inf = clean_df(table=table_inf)
@@ -182,11 +163,13 @@ index = find_index(table_inf)
 loc = table_inf.loc[index]
 print(loc)
 
+if __name__ == "__main__":
+    server.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    for name in loc.values:
+        if not name[4] == "":
+            send_massage(name)
+            print("the massage was sended to bot")
 
-for name in loc.values:
-    if not name[4] == "":
-        send_massage(name)
-        print("the massage was sended to bot")
 
 
 
