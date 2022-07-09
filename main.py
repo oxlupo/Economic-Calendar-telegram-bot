@@ -157,16 +157,16 @@ def send_massage(loc):
 
 
 
-# table = connection(url="https://www.investing.com/economic-calendar")
-table_inf = find_table(table)
-table_inf = clean_df(table=table_inf)
-index = find_index(table_inf)
-loc = table_inf.loc[index]
-print(loc)
+
 
 if __name__ == "__main__":
-    server.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
-    for name in loc.values:
-        if not name[4] == "":
-            send_massage(name)
-            print("the massage was sended to bot")
+    while True:
+        table = connection(url="https://www.investing.com/economic-calendar")
+        table_inf = find_table(table)
+        index = find_index(table_inf)
+        loc = table_inf.loc[index]
+        print(loc)
+        for name in loc.values:
+            if not name[4] == "":
+                send_massage(name)
+                print("the massage was sended to bot")
