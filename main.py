@@ -172,6 +172,5 @@ if __name__ == "__main__":
                 if not name[4] == "":
                     send_massage(name)
                     print("the massage was sended to bot")
-
         except Exception:
             time.sleep(20)
