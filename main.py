@@ -6,6 +6,10 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from flask import Flask, request
 
+TOKEN = "bot5334404508:AAFD-Vkaghr_BLOkC5n1Sy_XwFzKl3_4DSo"
+bot = telebot.TeleBot(TOKEN)
+server = Flask(__name__)
+
 
 data = open("retail.txt", "r").read()
 soup = BeautifulSoup(data, "html.parser")
