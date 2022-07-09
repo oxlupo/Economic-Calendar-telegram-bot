@@ -117,6 +117,7 @@ def clean_df(table):
     return table
 
 
+@server.route("/")
 def webhook():
     bot.remove_webhook()
     bot.set_webhook(url="https://sheltered-sierra-85399.herokuapp.com/" + TOKEN)
