@@ -1,11 +1,13 @@
 import json
 import re
+import time
 import telebot
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 from flask import Flask, request
-import os
+
+
 TOKEN = "bot5334404508:AAFD-Vkaghr_BLOkC5n1Sy_XwFzKl3_4DSo"
 bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
@@ -157,16 +159,19 @@ def send_massage(loc):
 
 
 
-
-
 if __name__ == "__main__":
     while True:
-        table = connection(url="https://www.investing.com/economic-calendar")
-        table_inf = find_table(table)
-        index = find_index(table_inf)
-        loc = table_inf.loc[index]
-        print(loc)
-        for name in loc.values:
-            if not name[4] == "":
-                send_massage(name)
-                print("the massage was sended to bot")
+        try:
+
+            table = connection(url="https://www.investing.com/economic-calendar")
+            table_inf = find_table(table)
+            index = find_index(table_inf)
+            loc = table_inf.loc[index]
+            print(loc)
+            for name in loc.values:
+                if not name[4] == "":
+                    send_massage(name)
+                    print("the massage was sended to bot")
+
+        except Exception:
+            time.sleep(20)
