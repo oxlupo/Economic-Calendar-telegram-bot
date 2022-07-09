@@ -123,18 +123,9 @@ def find_index(main_df):
     for ev in range(int(main_df.shape[0])):
         event = main_df.Event[ev]
         for k in main_event:
-            if not re.search(pattern=f"{k}", string=event, flags=0) == []:
-                print(k)
-
-        if "Initial Jobless Claims" in event:
-            index_.append(ev)
-        elif "Manufacturing PMI" in event:
-            index_.append(ev)
-        elif "Services PMI" in event:
-            index_.append(ev)
-        elif "Purchasing Managers Index" in event:
-            index_.append(ev)
-
+            search = re.search(pattern=f"{k}", string=event, flags=0)
+            if not search == None:
+                index_.append(ev)
     return index_
 
 def clean_df(table):
