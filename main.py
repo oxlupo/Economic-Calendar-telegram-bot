@@ -9,8 +9,8 @@ data = open("retail.txt", "r").read()
 soup = BeautifulSoup(data, "html.parser")
 table = soup.find("table", id="economicCalendarData")
 with open("event.json", 'r', encoding='utf-8') as e:
-    pass
-    # persian = json.load(e)
+
+    persian = json.load(e)
 text = f"""
 #FOREX_FACTORY
 
@@ -130,12 +130,6 @@ def find_index(main_df):
     return index_
 
 
-table_inf = find_table(table)
-index = find_index(table_inf)
-loc = table_inf.loc[index]
-print(loc)
-
-
 def send_massage(loc):
     """send a massage to channel by telegram bot"""
     for pr in persian:
@@ -168,48 +162,11 @@ def send_massage(loc):
     return resp
 
 
-text = """
-CRUDE OIL INVENTORIES
-
-BUSINESS INVENTORIES
-
-CONSUMER CONFIDENCE
-
-CONSUMER CREDIT
-
-CONSUMER SENTIMENT
-
-CPI (CONSUMER PRICE INDEX)
-
-DURABLE GOODS ORDERS
-
-EXISTING HOME SALES
-
-FACTORY ORDERS
-
-GDP
-
-HOUSING STARTS
-
-TRADE BALANCE
-
-ISM(INSTITUTE OF SUPPLY MANAGEMENT)
-
-INITIAL JOBLESS CLAIMS
-
-NEW HOME SALES
-
-NON FRAM – PAYROLLS
-
-AVERAGE HOURLY EARNING
-
-UNEMPLOYMENT RATE
-
-EMPLOYMENT COST INDEX
-
-PPI  ( PRODUCER PRICE INDEX )
-
-RETAIL SALES"""
+# table = connection(url="https://www.investing.com/economic-calendar")
+table_inf = find_table(table)
+index = find_index(table_inf)
+loc = table_inf.loc[index]
+print(loc)
 
 
 for name in loc.values:
