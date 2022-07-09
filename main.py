@@ -119,16 +119,32 @@ def find_table(table):
 def find_index(main_df):
     """find text of each data for replace new data in it"""
     index_ = []
+    main_event = persian.keys()
     for ev in range(int(main_df.shape[0])):
         event = main_df.Event[ev]
+        for k in main_event:
+            if not re.search(pattern=f"{k}", string=event, flags=0) == []:
+                print(k)
+
         if "Initial Jobless Claims" in event:
             index_.append(ev)
         elif "Manufacturing PMI" in event:
             index_.append(ev)
         elif "Services PMI" in event:
             index_.append(ev)
+        elif "Purchasing Managers Index" in event:
+            index_.append(ev)
+
     return index_
 
+def clean_df(table):
+    """
+    table was clean from \xa0 decoded and clean and nothing wasn't shown
+    """
+    table['Actual'] = table['Actual'].apply(lambda x: str(x).replace(u'\xa0', u''))
+    table['Forecast'] = table['Forecast'].apply(lambda x: str(x).replace(u'\xa0', u''))
+    table['Previous'] = table['Previous'].apply(lambda x: str(x).replace(u'\xa0', u''))
+    return table
 
 def send_massage(loc):
     """send a massage to channel by telegram bot"""
@@ -164,9 +180,7 @@ def send_massage(loc):
 
 # table = connection(url="https://www.investing.com/economic-calendar")
 table_inf = find_table(table)
-table_inf['Actual'] = table_inf['Actual'].apply(lambda x: str(x).replace(u'\xa0', u''))
-table_inf['Forecast'] = table_inf['Forecast'].apply(lambda x: str(x).replace(u'\xa0', u''))
-table_inf['Previous'] = table_inf['Previous'].apply(lambda x: str(x).replace(u'\xa0', u''))
+table_inf = clean_df(table=table_inf)
 index = find_index(table_inf)
 loc = table_inf.loc[index]
 print(loc)
