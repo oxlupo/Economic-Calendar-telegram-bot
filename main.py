@@ -1,9 +1,11 @@
 import json
 import re
-import tweepy
+import telebot
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+from flask import Flask, request
+
 
 data = open("retail.txt", "r").read()
 soup = BeautifulSoup(data, "html.parser")
