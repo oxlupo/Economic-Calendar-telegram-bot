@@ -164,6 +164,9 @@ def send_massage(loc):
 
 # table = connection(url="https://www.investing.com/economic-calendar")
 table_inf = find_table(table)
+table_inf['Actual'] = table_inf['Actual'].apply(lambda x: str(x).replace(u'\xa0', u''))
+table_inf['Forecast'] = table_inf['Forecast'].apply(lambda x: str(x).replace(u'\xa0', u''))
+table_inf['Previous'] = table_inf['Previous'].apply(lambda x: str(x).replace(u'\xa0', u''))
 index = find_index(table_inf)
 loc = table_inf.loc[index]
 print(loc)
