@@ -5,7 +5,8 @@ import telebot
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-from flask import Flask, request
+from flask import Flask
+import hashlib
 
 
 TOKEN = "bot5334404508:AAFD-Vkaghr_BLOkC5n1Sy_XwFzKl3_4DSo"
@@ -166,11 +167,13 @@ if __name__ == "__main__":
             table_inf = find_table(table)
             index = find_index(table_inf)
             loc = table_inf.loc[index]
-            loc = clean_df(table=loc)
+            # loc = clean_df(table=loc)
             print(loc)
             for name in loc.values:
+                # if not name[1] == "USD":
+                #     continue
                 if not name[4] == "":
-                    send_massage(name)
+                    resp = send_massage(name)
                     print("the massage was sended to bot")
         except Exception:
             time.sleep(20)
