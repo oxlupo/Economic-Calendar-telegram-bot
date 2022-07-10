@@ -161,6 +161,7 @@ def send_massage(loc):
 
 
 if __name__ == "__main__":
+    check_list = []
     while True:
         try:
             table = connection(url="https://www.investing.com/economic-calendar")
@@ -174,8 +175,8 @@ if __name__ == "__main__":
                 #     continue
                 if not name[4] == "":
                     resp = send_massage(name)
-                    hash_massage = hashlib.sha256(resp.text.encode("utf-8"))
-
+                    hash_massage = hashlib.sha256(resp.text.encode("utf-8")).hexdigest()
+                    check_list.append(hash_massage)
                     print("the massage was sended to bot")
         except Exception:
             time.sleep(20)
