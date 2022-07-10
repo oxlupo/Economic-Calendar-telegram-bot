@@ -174,6 +174,8 @@ if __name__ == "__main__":
                 #     continue
                 if not name[4] == "":
                     resp = send_massage(name)
+                    hash_massage = hashlib.sha256(resp.text.encode("utf-8"))
+
                     print("the massage was sended to bot")
         except Exception:
             time.sleep(20)
