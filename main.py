@@ -159,24 +159,29 @@ def send_massage(loc):
     return resp
 
 
+def main():
+    """all of the steps was here"""
+    check_list = []
+    try:
+        table = connection(url="https://www.investing.com/economic-calendar")
+        table_inf = find_table(table)
+        index = find_index(table_inf)
+        loc = table_inf.loc[index]
+        loc = clean_df(table=loc)
+        print(loc)
+        for name in loc.values:
+            if not name[1] == "USD":
+                continue
+            if not name[4] == "":
+                resp = send_massage(name)
+                hash_massage = hashlib.sha256(resp.text.encode("utf-8")).hexdigest()
+                check_list.append(hash_massage)
+                print("the massage was sended to bot")
+    except Exception:
+        time.sleep(20)
+    return check_list
+
+
 
 if __name__ == "__main__":
-    check_list = []
-    while True:
-        try:
-            table = connection(url="https://www.investing.com/economic-calendar")
-            table_inf = find_table(table)
-            index = find_index(table_inf)
-            loc = table_inf.loc[index]
-            # loc = clean_df(table=loc)
-            print(loc)
-            for name in loc.values:
-                # if not name[1] == "USD":
-                #     continue
-                if not name[4] == "":
-                    resp = send_massage(name)
-                    hash_massage = hashlib.sha256(resp.text.encode("utf-8")).hexdigest()
-                    check_list.append(hash_massage)
-                    print("the massage was sended to bot")
-        except Exception:
-            time.sleep(20)
+
