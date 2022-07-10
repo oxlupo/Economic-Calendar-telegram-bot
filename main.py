@@ -1,7 +1,7 @@
 import json
 import re
 import time
-
+from datetime import datetime
 import schedule
 import telebot
 import requests
@@ -16,9 +16,6 @@ bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
 
 
-data = open("retail.txt", "r").read()
-soup = BeautifulSoup(data, "html.parser")
-table = soup.find("table", id="economicCalendarData")
 with open("event.json", 'r', encoding='utf-8') as e:
 
     persian = json.load(e)
@@ -112,6 +109,7 @@ def find_index(main_df):
                 index_.append(ev)
     return index_
 
+
 def clean_df(table):
     """
     table was clean from \xa0 decoded and clean and nothing wasn't shown
@@ -164,6 +162,12 @@ def send_massage(loc):
 def main(loc):
     """all of the steps was here"""
     check_list = []
+    table = connection(url="https://www.investing.com/economic-calendar")
+    table_inf = find_table(table)
+    index = find_index(table_inf)
+    loc = table_inf.loc[index]
+    loc = clean_df(table=loc)
+    print(loc)
     try:
         for name in loc.values:
             if not name[1] == "USD":
@@ -178,7 +182,7 @@ def main(loc):
     return check_list
 
 
-def first_get(url="https://www.investing.com/economic-calendar"):
+def final_table(url="https://www.investing.com/economic-calendar"):
     """get table from investing.com"""
     table = connection(url=url)
     table_inf = find_table(table)
@@ -190,7 +194,11 @@ def first_get(url="https://www.investing.com/economic-calendar"):
 
 
 
+
+
 if __name__ == "__main__":
+    schedule.every().day.at("01:00").do(final_table)
     while True:
-        schedule.every().day.at("01:00").do(main)
-        time.sleep(60)
+        schedule.run_pending()
+        time.sleep(2)
+
