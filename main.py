@@ -1,6 +1,8 @@
 import json
 import re
 import time
+
+import schedule
 import telebot
 import requests
 from bs4 import BeautifulSoup
@@ -159,16 +161,10 @@ def send_massage(loc):
     return resp
 
 
-def main():
+def main(loc):
     """all of the steps was here"""
     check_list = []
     try:
-        table = connection(url="https://www.investing.com/economic-calendar")
-        table_inf = find_table(table)
-        index = find_index(table_inf)
-        loc = table_inf.loc[index]
-        loc = clean_df(table=loc)
-        print(loc)
         for name in loc.values:
             if not name[1] == "USD":
                 continue
@@ -182,6 +178,19 @@ def main():
     return check_list
 
 
+def first_get(url="https://www.investing.com/economic-calendar"):
+    """get table from investing.com"""
+    table = connection(url=url)
+    table_inf = find_table(table)
+    index = find_index(table_inf)
+    loc = table_inf.loc[index]
+    loc = clean_df(table=loc)
+    print(loc)
+    return loc
+
+
 
 if __name__ == "__main__":
-
+    while True:
+        schedule.every().day.at("01:00").do(main)
+        time.sleep(60)
