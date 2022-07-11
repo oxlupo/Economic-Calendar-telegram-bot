@@ -1,8 +1,6 @@
 import json
 import re
 import time
-from datetime import datetime, timedelta
-from threading import Timer
 import schedule
 import telebot
 import requests
@@ -183,23 +181,24 @@ def final_table(url="https://www.investing.com/economic-calendar"):
     return "NOTHING FOR SHOW"
 
 
-def main(loc):
+def main():
     """all of the steps was here"""
     check_list = []
-
-    try:
-        for name in loc.values:
-            if not name[4] == "":
-                resp = send_massage(name)
-                hash_massage = hashlib.sha256(resp.text.encode("utf-8")).hexdigest()
-                check_list.append(hash_massage)
-                print("the massage was sended to bot")
-    except Exception:
-        time.sleep(20)
+    loc = final_table()
+    if not loc == "NOTHING FOR SHOW":
+        try:
+            for name in loc.values:
+                if not name[4] == "":
+                    resp = send_massage(name)
+                    hash_massage = hashlib.sha256(resp.text.encode("utf-8")).hexdigest()
+                    check_list.append(hash_massage)
+                    print("the massage was sended to bot")
+        except Exception:
+            time.sleep(20)
     return check_list
 
 
-final_table()
+main()
 if __name__ == "__main__":
 
     schedule.every().day.at("08:32").do(final_table)
