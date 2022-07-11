@@ -169,19 +169,26 @@ def send_massage(loc):
     return resp
 
 
+def final_table(url="https://www.investing.com/economic-calendar"):
+    """get table from investing.com"""
+    table = connection(url=url)
+    table_inf = find_table(table)
+    table_inf = clean_df(table_inf)
+    usa_df = usa_table(table_inf)
+    index = find_index(usa_df)
+    if not index == []:
+        loc = table_inf.loc[index]
+        print(loc)
+        return loc
+    return "NOTHING FOR SHOW"
+
+
 def main(loc):
     """all of the steps was here"""
     check_list = []
-    table = connection(url="https://www.investing.com/economic-calendar")
-    table_inf = find_table(table)
-    index = find_index(table_inf)
-    loc = table_inf.loc[index]
-    loc = clean_df(table=loc)
-    print(loc)
+
     try:
         for name in loc.values:
-            if not name[1] == "USD":
-                continue
             if not name[4] == "":
                 resp = send_massage(name)
                 hash_massage = hashlib.sha256(resp.text.encode("utf-8")).hexdigest()
@@ -191,19 +198,6 @@ def main(loc):
         time.sleep(20)
     return check_list
 
-
-def final_table(url="https://www.investing.com/economic-calendar"):
-    """get table from investing.com"""
-    table = connection(url=url)
-    table_inf = find_table(table)
-    table_inf = clean_df(table_inf)
-    usa_df = usa_table(table_inf)
-    index = find_index(usa_df)
-    if not index == []:
-
-        loc = table_inf.loc[index]
-        print(loc)
-    return loc
 
 final_table()
 if __name__ == "__main__":
