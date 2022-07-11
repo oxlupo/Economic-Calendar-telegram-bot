@@ -135,7 +135,7 @@ def webhook():
     return "!", 200
 
 
-def send_massage(loc):
+def send_massage(loc, checklist):
     """send a massage to channel by telegram bot"""
     for pr in persian:
         if pr in loc[3]:
@@ -163,8 +163,10 @@ def send_massage(loc):
 """
     }
     print(parameters["text"])
-    resp = requests.get(url=base_url, data=parameters)
-    return resp
+    hash_massage = hashlib.sha256(parameters["text"].encode("utf-8")).hexdigest()
+    if not hash_massage in checklist:
+        resp = requests.get(url=base_url, data=parameters)
+    return hash_massage
 
 
 def final_table(url="https://www.investing.com/economic-calendar"):
@@ -189,8 +191,7 @@ def main():
         try:
             for name in loc.values:
                 if not name[4] == "":
-                    resp = send_massage(name)
-                    hash_massage = hashlib.sha256(resp.text.encode("utf-8")).hexdigest()
+                    hash_massage = send_massage(name)
                     check_list.append(hash_massage)
                     print("the massage was sended to bot")
         except Exception:
