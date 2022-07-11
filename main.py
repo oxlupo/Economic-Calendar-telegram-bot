@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from flask import Flask
 import hashlib
-
+from termcolor import colored
 
 TOKEN = "bot5334404508:AAFD-Vkaghr_BLOkC5n1Sy_XwFzKl3_4DSo"
 bot = telebot.TeleBot(TOKEN)
@@ -171,11 +171,14 @@ def send_massage(loc, checklist):
 
 def final_table(url="https://www.investing.com/economic-calendar"):
     """get table from investing.com"""
-    table = connection(url=url)
-    table_inf = find_table(table)
-    table_inf = clean_df(table_inf)
-    usa_df = usa_table(table_inf)
-    index = find_index(usa_df)
+    try:
+        table = connection(url=url)
+        table_inf = find_table(table)
+        table_inf = clean_df(table_inf)
+        usa_df = usa_table(table_inf)
+        index = find_index(usa_df)
+    except Exception as e:
+        print(e)
     if not index == []:
         loc = table_inf.loc[index]
         print(loc)
@@ -185,15 +188,14 @@ def final_table(url="https://www.investing.com/economic-calendar"):
 
 def main():
     """all of the steps was here"""
-    check_list = []
     loc = final_table()
     if not loc == "NOTHING FOR SHOW":
         try:
             for name in loc.values:
                 if not name[4] == "":
-                    hash_massage = send_massage(name)
+                    hash_massage = send_massage(name, check_list)
                     check_list.append(hash_massage)
-                    print("the massage was sended to bot")
+                    print(colored("the massage was sent to bot"), "green")
         except Exception:
             time.sleep(20)
     return check_list
@@ -201,7 +203,7 @@ def main():
 
 main()
 if __name__ == "__main__":
-
+    check_list = []
     schedule.every().day.at("08:32").do(final_table)
     while True:
 
