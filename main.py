@@ -1,7 +1,8 @@
 import json
 import re
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
+from threading import Timer
 import schedule
 import telebot
 import requests
@@ -42,6 +43,15 @@ def find_flag(element):
     """ find the flag of each id """
     flag_name = element.find("td", class_="left flagCur noWrap").text.strip()
     return flag_name
+
+
+def usa_table(table):
+    """only show USA event"""
+    for index, flag in enumerate(table.values):
+        if not flag[1] == "USD":
+            table = table.drop(index)
+    table = table.reset_index(drop=True)
+    return table
 
 
 def find_number_star(element):
@@ -186,19 +196,20 @@ def final_table(url="https://www.investing.com/economic-calendar"):
     """get table from investing.com"""
     table = connection(url=url)
     table_inf = find_table(table)
-    index = find_index(table_inf)
-    loc = table_inf.loc[index]
-    loc = clean_df(table=loc)
-    print(loc)
+    table_inf = clean_df(table_inf)
+    usa_df = usa_table(table_inf)
+    index = find_index(usa_df)
+    if not index == []:
+
+        loc = table_inf.loc[index]
+        print(loc)
     return loc
 
-
-
-
-
+final_table()
 if __name__ == "__main__":
-    schedule.every().day.at("01:00").do(final_table)
+
+    schedule.every().day.at("08:32").do(final_table)
     while True:
+
         schedule.run_pending()
         time.sleep(2)
-
