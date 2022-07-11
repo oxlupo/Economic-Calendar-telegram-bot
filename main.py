@@ -162,17 +162,24 @@ def send_massage(loc, checklist):
 📍@Amiramidiyan📍
 """
     }
-    print(parameters["text"])
     hash_massage = hashlib.sha256(parameters["text"].encode("utf-8")).hexdigest()
     if not hash_massage in checklist:
-        resp = requests.get(url=base_url, data=parameters)
+        try:
+            resp = requests.get(url=base_url, data=parameters,)
+            print(parameters["text"])
+            print(colored("the massage was sent to bot", "green"))
+        except Exception as e:
+            print(e)
     return hash_massage
 
 
 def final_table(url="https://www.investing.com/economic-calendar"):
     """get table from investing.com"""
     try:
-        table = connection(url=url)
+        # table = connection(url=url)
+        data = open("economic.txt", "r", encoding="utf-8")
+        soup = BeautifulSoup(data, "html.parser")
+        table = soup.find("table", id="economicCalendarData")
         table_inf = find_table(table)
         table_inf = clean_df(table_inf)
         usa_df = usa_table(table_inf)
@@ -189,23 +196,22 @@ def final_table(url="https://www.investing.com/economic-calendar"):
 def main():
     """all of the steps was here"""
     loc = final_table()
-    if not loc == "NOTHING FOR SHOW":
+    if not isinstance(loc, str):
         try:
             for name in loc.values:
-                if not name[4] == "":
-                    hash_massage = send_massage(name, check_list)
-                    check_list.append(hash_massage)
-                    print(colored("the massage was sent to bot"), "green")
+                hash_massage = send_massage(name, check_list)
+                check_list.append(hash_massage)
         except Exception:
+            print(Exception)
             time.sleep(20)
     return check_list
 
 
+check_list = []
 main()
-if __name__ == "__main__":
-    check_list = []
-    schedule.every().day.at("08:32").do(final_table)
-    while True:
-
-        schedule.run_pending()
-        time.sleep(2)
+# if __name__ == "__main__":
+#
+#     schedule.every(10).seconds.do(main)
+#     while True:
+#         schedule.run_pending()
+#         time.sleep(2)
