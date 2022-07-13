@@ -72,6 +72,13 @@ def find_value(id, element):
 
 def get_extreme(table):
     """get only data that important"""
+    for index, data in enumerate(table.values):
+        if not data[2] == "***":
+            table = table.drop(index)
+    table = table.reset_index(drop=True)
+
+    return table
+
 
 def find_table(table):
     """find the main table """
@@ -167,6 +174,7 @@ def final_table(url="https://www.investing.com/economic-calendar"):
         table_inf = find_table(table)
         table_inf = clean_df(table_inf)
         usa_df = usa_table(table_inf)
+        extreme_data = get_extreme(usa_df)
         index = find_index(usa_df)
     except Exception as e:
         return e
@@ -196,6 +204,6 @@ if __name__ == "__main__":
     print(colored("the program was started to work", "green"))
     check_list = []
     while True:
-        time.sleep(60)
+        time.sleep(2)
         main()
         time.sleep(2)
