@@ -190,9 +190,8 @@ def main():
 
 main()
 if __name__ == "__main__":
-    print("the program was started to work")
+    print(colored("the program was started to work"), "green")
     check_list = []
-    schedule.every(30).seconds.do(main)
     while True:
-        schedule.run_pending()
+
         time.sleep(2)
