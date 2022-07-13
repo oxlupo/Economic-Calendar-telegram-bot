@@ -1,6 +1,7 @@
 import json
 import re
 import time
+import schedule
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -68,6 +69,9 @@ def find_value(id, element):
 
     return actual, forecast, previous
 
+
+def get_extreme(table):
+    """get only data that important"""
 
 def find_table(table):
     """find the main table """
@@ -157,7 +161,7 @@ def send_massage(loc, checklist):
 
 
 def final_table(url="https://www.investing.com/economic-calendar"):
-    """get table from investing.com"""
+    """get USA table from investing.com"""
     try:
         table = connection(url=url)
         table_inf = find_table(table)
