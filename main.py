@@ -168,7 +168,7 @@ def final_table(url="https://www.investing.com/economic-calendar"):
     except Exception as e:
         return e
     if not index == []:
-        loc = table_inf.loc[index]
+        loc = usa_df.loc[index]
         print(loc)
         return loc
     return "NOTHING FOR SHOW"
@@ -188,7 +188,7 @@ def main():
             time.sleep(20)
     return check_list
 
-
+main()
 if __name__ == "__main__":
     print("the program was started to work")
     check_list = []
