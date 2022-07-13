@@ -1,7 +1,6 @@
 import json
 import re
 import time
-import schedule
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
