@@ -2,21 +2,13 @@ import json
 import re
 import time
 import schedule
-import telebot
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-from flask import Flask
 import hashlib
 from termcolor import colored
 
-TOKEN = "bot5334404508:AAFD-Vkaghr_BLOkC5n1Sy_XwFzKl3_4DSo"
-bot = telebot.TeleBot(TOKEN)
-server = Flask(__name__)
-
-
 with open("event.json", 'r', encoding='utf-8') as e:
-
     persian = json.load(e)
 
 
@@ -24,7 +16,6 @@ def connection(url):
     """get html of website with request and parse it with soup"""
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36'}
-
     data = requests.get(url, headers=headers).content
     soup = BeautifulSoup(data, "html.parser")
     table = soup.find("table", id="economicCalendarData")
@@ -128,13 +119,6 @@ def clean_df(table):
     return table
 
 
-@server.route("/")
-def webhook():
-    bot.remove_webhook()
-    bot.set_webhook(url="https://sheltered-sierra-85399.herokuapp.com/" + TOKEN)
-    return "!", 200
-
-
 def send_massage(loc, checklist):
     """send a massage to channel by telegram bot"""
     for pr in persian:
@@ -150,7 +134,7 @@ def send_massage(loc, checklist):
         "chat_id": "@ZeroHedge2",
         "text": f"""
 ✅{persian_name} 
- 
+
 {event}
 
 ✔️ واقعی---->{actual} 
@@ -165,7 +149,7 @@ def send_massage(loc, checklist):
     hash_massage = hashlib.sha256(parameters["text"].encode("utf-8")).hexdigest()
     if not hash_massage in checklist:
         try:
-            resp = requests.get(url=base_url, data=parameters,)
+            resp = requests.get(url=base_url, data=parameters)
             print(parameters["text"])
             print(colored("the massage was sent to bot", "green"))
         except Exception as e:
@@ -176,16 +160,13 @@ def send_massage(loc, checklist):
 def final_table(url="https://www.investing.com/economic-calendar"):
     """get table from investing.com"""
     try:
-        # table = connection(url=url)
-        data = open("economic.txt", "r", encoding="utf-8")
-        soup = BeautifulSoup(data, "html.parser")
-        table = soup.find("table", id="economicCalendarData")
+        table = connection(url=url)
         table_inf = find_table(table)
         table_inf = clean_df(table_inf)
         usa_df = usa_table(table_inf)
         index = find_index(usa_df)
     except Exception as e:
-        print(e)
+        return e
     if not index == []:
         loc = table_inf.loc[index]
         print(loc)
@@ -199,19 +180,19 @@ def main():
     if not isinstance(loc, str):
         try:
             for name in loc.values:
-                hash_massage = send_massage(name, check_list)
-                check_list.append(hash_massage)
+                if not name[4] == "":
+                    hash_massage = send_massage(name, check_list)
+                    check_list.append(hash_massage)
         except Exception:
             print(Exception)
             time.sleep(20)
     return check_list
 
 
-check_list = []
-main()
-# if __name__ == "__main__":
-#
-#     schedule.every(10).seconds.do(main)
-#     while True:
-#         schedule.run_pending()
-#         time.sleep(2)
+if __name__ == "__main__":
+    print("the program was started to work")
+    check_list = []
+    schedule.every(30).seconds.do(main)
+    while True:
+        schedule.run_pending()
+        time.sleep(2)
