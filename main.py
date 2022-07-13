@@ -188,10 +188,11 @@ def main():
             time.sleep(20)
     return check_list
 
-main()
+
 if __name__ == "__main__":
-    print(colored("the program was started to work"), "green")
+    print(colored("the program was started to work", "green"))
     check_list = []
     while True:
-
+        time.sleep(60)
+        main()
         time.sleep(2)
