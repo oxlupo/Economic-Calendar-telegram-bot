@@ -18,5 +18,8 @@
   "Average Hourly Earning":"میانگین دستمزد ساعتی",
   "Unemployment Rate": "نرخ بیکاری",
   "Employment Cost Index": "شاخص ارزش اشتغال",
-  "Retail Sales": "شاخص خرده فروشی"
+  "Retail Sales": "شاخص خرده فروشی",
+  "CPI": "شاخص قیمت مصرف کننده",
+  "PPI": "شاخص قیمت تولیدکننده",
+  "GFP": "تولید ناخالص داخلی"
 }
