@@ -72,6 +72,16 @@ def get_extreme(table):
     return table
 
 
+def clean_df(table):
+    """
+    table was clean from \xa0 decoded and clean and nothing wasn't shown
+    """
+    table['Actual'] = table['Actual'].apply(lambda x: str(x).replace(u'\xa0', u''))
+    table['Forecast'] = table['Forecast'].apply(lambda x: str(x).replace(u'\xa0', u''))
+    table['Previous'] = table['Previous'].apply(lambda x: str(x).replace(u'\xa0', u''))
+    return table
+
+
 def find_table(table):
     """find the main table """
 
@@ -97,11 +107,15 @@ def find_table(table):
 
     return main_df
 
-def clean_df(table):
-    """
-    table was clean from \xa0 decoded and clean and nothing wasn't shown
-    """
-    table['Actual'] = table['Actual'].apply(lambda x: str(x).replace(u'\xa0', u''))
-    table['Forecast'] = table['Forecast'].apply(lambda x: str(x).replace(u'\xa0', u''))
-    table['Previous'] = table['Previous'].apply(lambda x: str(x).replace(u'\xa0', u''))
-    return table
+def final_table(url="https://www.investing.com/economic-calendar"):
+    """get USA table from investing.com"""
+    try:
+        table = connection(url=url)
+        table_inf = find_table(table)
+        table_inf = clean_df(table_inf)
+        usa_df = usa_table(table_inf)
+        extreme_data = get_extreme(usa_df)
+        print(extreme_data)
+        return extreme_data
+    except Exception as e:
+        return e
