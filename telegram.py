@@ -26,13 +26,10 @@ def send_massage(loc, checklist):
 
 {event}
 
-✔️ واقعی---->{actual} 
-✔️ پیش بینی---->{forecast} 
-✔️ قبلی---->{previous} 
+✔ Actual ----> {actual} 
+✔ Forecast ----> {forecast} 
+✔ previous ----> {previous} 
 
-
-
-📍@Amiramidiyan📍
 """
     }
     hash_massage = hashlib.sha256(parameters["text"].encode("utf-8")).hexdigest()
