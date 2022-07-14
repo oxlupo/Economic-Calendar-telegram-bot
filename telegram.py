@@ -20,7 +20,7 @@ def send_massage(loc, checklist):
     previous = loc[6]
     base_url = "https://api.telegram.org/'<YOUR-TOKEN>'/sendMessage"
     parameters = {
-        "chat_id": "@Amiramidiyan",
+        "chat_id": "@'<YOUR-CHANNEL>'",
         "text": f"""
 ✅{persian_name} 
 
