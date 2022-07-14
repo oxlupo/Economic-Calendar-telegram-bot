@@ -1,3 +1,5 @@
+import requests
+from bs4 import BeautifulSoup
 
 
 def connection(url):
@@ -8,3 +10,9 @@ def connection(url):
     soup = BeautifulSoup(data, "html.parser")
     table = soup.find("table", id="economicCalendarData")
     return table
+
+
+def find_time(element):
+    """ find the time of each id """
+    time_ = element.find("td", class_="first left time js-time").string
+    return time_
