@@ -113,6 +113,19 @@ def find_table(table):
     return main_df
 
 
+def find_index(main_df):
+    """find text of each data for replace new data in it"""
+    index_ = []
+    main_event = persian.keys()
+    for ev in range(int(main_df.shape[0])):
+        event = main_df.Event[ev]
+        for k in main_event:
+            search = re.search(pattern=f"{k}", string=event, flags=0)
+            if not search == None:
+                index_.append(ev)
+    return index_
+
+
 def final_table(url="https://www.investing.com/economic-calendar"):
     """get USA table from investing.com"""
     try:
@@ -125,16 +138,3 @@ def final_table(url="https://www.investing.com/economic-calendar"):
         return extreme_data
     except Exception as e:
         return e
-
-
-def find_index(main_df):
-    """find text of each data for replace new data in it"""
-    index_ = []
-    main_event = persian.keys()
-    for ev in range(int(main_df.shape[0])):
-        event = main_df.Event[ev]
-        for k in main_event:
-            search = re.search(pattern=f"{k}", string=event, flags=0)
-            if not search == None:
-                index_.append(ev)
-    return index_
