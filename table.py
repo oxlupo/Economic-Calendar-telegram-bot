@@ -107,6 +107,7 @@ def find_table(table):
 
     return main_df
 
+
 def final_table(url="https://www.investing.com/economic-calendar"):
     """get USA table from investing.com"""
     try:
