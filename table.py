@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-
+import re
 
 def connection(url):
     """get html of website with request and parse it with soup"""
@@ -31,3 +31,15 @@ def usa_table(table):
             table = table.drop(index)
     table = table.reset_index(drop=True)
     return table
+
+
+def find_number_star(element):
+    """ evaluating value of each news by number of stars """
+    imp = element.find("td", class_="left textNum sentiment noWrap").attrs["data-img_key"]
+    imp_list = []
+    pattern = re.compile("bull([0-3])")
+    len_star = pattern.findall(imp)
+    for i in range(int(len_star[0])):
+        imp_list.append("*")
+    imp_star = "".join(imp_list)
+    return imp_star
