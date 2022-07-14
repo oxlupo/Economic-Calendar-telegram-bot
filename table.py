@@ -16,3 +16,9 @@ def find_time(element):
     """ find the time of each id """
     time_ = element.find("td", class_="first left time js-time").string
     return time_
+
+
+def find_flag(element):
+    """ find the flag of each id """
+    flag_name = element.find("td", class_="left flagCur noWrap").text.strip()
+    return flag_name
