@@ -43,3 +43,9 @@ def find_number_star(element):
         imp_list.append("*")
     imp_star = "".join(imp_list)
     return imp_star
+
+
+def find_event(element):
+    """ the name of event find with this function """
+    Event = element.find("a", href=True).text.strip()
+    return Event
