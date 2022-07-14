@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 import re
+import pandas as pd
+
 
 def connection(url):
     """get html of website with request and parse it with soup"""
@@ -67,4 +69,39 @@ def get_extreme(table):
             table = table.drop(index)
     table = table.reset_index(drop=True)
 
+    return table
+
+
+def find_table(table):
+    """find the main table """
+
+    main_df = pd.DataFrame(columns=["Time", "Flag", "Imp", "Event", "Actual", "Forecast", "Previous"])
+    for element in table.find_all("tr", class_="js-event-item"):
+        element_dict = element.attrs
+        id = element_dict["id"].split("_")[1]
+        time_ = find_time(element)
+        flag = find_flag(element)
+        imp_star = find_number_star(element)
+        event = find_event(element)
+        actual, forecast, previous = find_value(id=id, element=element)
+        id_df = pd.DataFrame({
+            "Time": time_,
+            "Flag": flag,
+            "Imp": [imp_star],
+            "Event": event,
+            "Actual": actual,
+            "Forecast": forecast,
+            "Previous": previous,
+        })
+        main_df = main_df.append(id_df, ignore_index=True)
+
+    return main_df
+
+def clean_df(table):
+    """
+    table was clean from \xa0 decoded and clean and nothing wasn't shown
+    """
+    table['Actual'] = table['Actual'].apply(lambda x: str(x).replace(u'\xa0', u''))
+    table['Forecast'] = table['Forecast'].apply(lambda x: str(x).replace(u'\xa0', u''))
+    table['Previous'] = table['Previous'].apply(lambda x: str(x).replace(u'\xa0', u''))
     return table
