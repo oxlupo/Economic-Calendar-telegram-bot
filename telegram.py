@@ -1,5 +1,7 @@
 import requests
 import hashlib
+import json
+from termcolor import colored
 
 
 with open("event.json", 'r', encoding='utf-8') as e:
