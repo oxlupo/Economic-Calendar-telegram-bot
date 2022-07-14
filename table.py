@@ -49,3 +49,22 @@ def find_event(element):
     """ the name of event find with this function """
     Event = element.find("a", href=True).text.strip()
     return Event
+
+
+def find_value(id, element):
+    """find the value of each rows of Actual Forecast and Previous"""
+    actual = element.find("td", id=f"eventActual_{id}").text
+    forecast = element.find("td", id=f"eventForecast_{id}").text
+    previous = element.find("td", id=f"eventPrevious_{id}").text
+
+    return actual, forecast, previous
+
+
+def get_extreme(table):
+    """get only data that important"""
+    for index, data in enumerate(table.values):
+        if not data[2] == "***":
+            table = table.drop(index)
+    table = table.reset_index(drop=True)
+
+    return table
