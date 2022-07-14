@@ -18,7 +18,7 @@ def send_massage(loc, checklist):
     actual = loc[4]
     forecast = loc[5]
     previous = loc[6]
-    base_url = "https://api.telegram.org/bot5334404508:AAFD-Vkaghr_BLOkC5n1Sy_XwFzKl3_4DSo/sendMessage"
+    base_url = "https://api.telegram.org/'<YOUR-TOKEN>'/sendMessage"
     parameters = {
         "chat_id": "@Amiramidiyan",
         "text": f"""
