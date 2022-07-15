@@ -15,3 +15,11 @@ central bank meeting or major news announcement.
 
 this field will have completed
 
+# run bot 
+
+- First of all, you have to make a robot, if you
+don't know how, you can watch this useful tutorial video[[here]](https://www.youtube.com/watch?v=CNkiPN_WZfA)
+  
+- Then place your **telegram token** and **telegram channel ID** in the **Telegram.py** file
+![Screenshot](image/telegram.PNG)
+
