@@ -11,18 +11,18 @@ in today’s environment of fiscal cliffs and central bank intervention,
 it can be very helpful to know the date of the next
 central bank meeting or major news announcement.
 
-# telegram post preview
+# Telegram post preview
 
-this field will have completed
+![image](image/post_preview.jpg)
 
-# installation 
+# Installation 
 
     pip3 install -r requirements.txt
 
 
-# run bot 
+# Run bot 
 
-* 1- First of all, you have to make a robot, if you
+* 1- First of all, you should make a telegram bot, if you
 don't know how, you can watch this useful tutorial video[[here]](https://www.youtube.com/watch?v=CNkiPN_WZfA)
   
 <br />
@@ -35,5 +35,13 @@ don't know how, you can watch this useful tutorial video[[here]](https://www.you
         "chat_id": "@<'YOUR-CHANNEL'>",
 ```
 
+# heroku 
+
+If you want your bot to work all the time, deploy your code on **[heroku](https://www.heroku.com/)**
 
 
+<a href="https://github.com/oxlupo/Economic-Calendar-telegram-bot">
+  <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy">
+</a>
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/oxlupo/Economic-Calendar-telegram-bot)
