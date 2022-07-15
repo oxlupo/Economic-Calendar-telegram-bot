@@ -22,8 +22,6 @@ def send_massage(loc, checklist):
     parameters = {
         "chat_id": "@'<YOUR-CHANNEL>'",
         "text": f"""
-✅{persian_name} 
-
 {event}
 
 ✔ Actual ----> {actual} 
