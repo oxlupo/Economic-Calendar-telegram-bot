@@ -40,8 +40,6 @@ don't know how, you can watch this useful tutorial video[[here]](https://www.you
 If you want your bot to work all the time, deploy your code on **[heroku](https://www.heroku.com/)**
 
 
-<a href="https://heroku.com/deploy?template=https://github.com/heroku/node-js-getting-started">
+<a href="https://heroku.com/deploy?template=https://github.com/oxlupo/Economic-Calendar-telegram-bot">
   <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy">
 </a>
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/oxlupo/Economic-Calendar-telegram-bot)
