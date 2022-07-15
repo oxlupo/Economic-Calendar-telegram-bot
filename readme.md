@@ -15,18 +15,25 @@ central bank meeting or major news announcement.
 
 this field will have completed
 
+# installation 
+
+> pip3 install -r requirements.txt
+
+
 # run bot 
 
-* First of all, you have to make a robot, if you
+* 1- First of all, you have to make a robot, if you
 don't know how, you can watch this useful tutorial video[[here]](https://www.youtube.com/watch?v=CNkiPN_WZfA)
   
 <br />
 
-- Then place your **telegram token** and **telegram channel ID** in the **Telegram.py** file
+- 2-Then place your **telegram token** and **telegram channel ID** in the **Telegram.py** file
 
 ```python
     base_url = "https://api.telegram.org/<'YOUR-TOKEN'>/sendMessage"
     parameters = {
         "chat_id": "@<'YOUR-CHANNEL'>",
 ```
+
+
 
