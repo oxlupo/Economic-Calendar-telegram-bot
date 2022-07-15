@@ -10,10 +10,6 @@ with open("event.json", 'r', encoding='utf-8') as e:
 
 def send_massage(loc, checklist):
     """send a massage to channel by telegram bot"""
-    for pr in persian:
-        if pr in loc[3]:
-            persian_name = persian[pr]
-            break
     event = loc[3]
     actual = loc[4]
     forecast = loc[5]
@@ -22,7 +18,7 @@ def send_massage(loc, checklist):
     parameters = {
         "chat_id": "@'<YOUR-CHANNEL>'",
         "text": f"""
-{event}
+{event}📅
 
 ✔ Actual ----> {actual} 
 ✔ Forecast ----> {forecast} 
