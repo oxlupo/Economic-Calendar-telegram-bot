@@ -5,10 +5,6 @@ import pandas as pd
 import json
 
 
-with open("event.json", 'r', encoding='utf-8') as e:
-    persian = json.load(e)
-
-
 def connection(url):
     """get html of website with request and parse it with soup"""
     headers = {
