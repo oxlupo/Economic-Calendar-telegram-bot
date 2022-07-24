@@ -4,10 +4,6 @@ import json
 from termcolor import colored
 
 
-with open("event.json", 'r', encoding='utf-8') as e:
-    persian = json.load(e)
-
-
 def send_massage(loc, checklist):
     """send a massage to channel by telegram bot"""
     event = loc[3]
