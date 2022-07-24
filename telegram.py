@@ -1,6 +1,5 @@
 import requests
 import hashlib
-import json
 from termcolor import colored
 
 
