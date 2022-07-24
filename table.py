@@ -2,8 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import pandas as pd
-import json
-
 
 def connection(url):
     """get html of website with request and parse it with soup"""
@@ -112,10 +110,10 @@ def find_table(table):
 def find_index(main_df):
     """find text of each data for replace new data in it"""
     index_ = []
-    main_event = persian.keys()
+    # main_event = persian.keys()
     for ev in range(int(main_df.shape[0])):
         event = main_df.Event[ev]
-        for k in main_event:
+        for k in "main_event":
             search = re.search(pattern=f"{k}", string=event, flags=0)
             if not search == None:
                 index_.append(ev)
